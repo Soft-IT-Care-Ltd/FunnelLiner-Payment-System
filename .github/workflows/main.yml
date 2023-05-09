@@ -1,0 +1,22 @@
+name: Publish
+on:
+  push:
+    branches:
+      - main
+jobs:
+  deploy:
+    name: 🚀 Deploy website every commit
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🚚 Get latest code
+        uses: actions/checkout@v2
+
+      - name: Install Packages
+        run: composer install --no-dev
+      - name: FTP-Deploy-Action
+        uses: SamKirkland/FTP-Deploy-Action@4.3.2
+        with:
+          server: ftp.softitcare.com
+          username: fun@softitcare.com
+          password: rBbC$R_Lh(zy
+          protocol: ftp
