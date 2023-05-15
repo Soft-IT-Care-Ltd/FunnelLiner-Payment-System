@@ -29,5 +29,9 @@ return [
         'secret' => env('AWS_SECRET_ACCESS_KEY'),
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
+    'payment' => [
+        'local' => 'http://localhost:8000/api/v1/client/subscription/store',
+        'production' => 'https://web.funnelliner.com/api/v1/client/subscription/store'
+    ],
 
 ];
