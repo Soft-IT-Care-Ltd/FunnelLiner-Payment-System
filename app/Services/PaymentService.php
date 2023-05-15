@@ -6,7 +6,7 @@ namespace App\Services;
 
 class PaymentService
 {
-    public function index($request): array
+    public function index($request)
     {
         $sslcommerz = new SSLCommerze();
         $sslcommerz->setPaymentDisplayType('hosted'); // enum('hosted', 'checkout')
@@ -18,9 +18,9 @@ class PaymentService
         $sslcommerz->setFailUrl(route('payment.ssl.callback', [ 'failed', 'user_id' => $request->header('id') ]));
         $sslcommerz->setCancelUrl(route('payment.ssl.callback', [ 'cancelled', 'user_id' => $request->header('id') ]));
 
-        $sslcommerz->setCustomerName($request->user['name']);
-        $sslcommerz->setCustomerEmail($request->user['email']);
-        $sslcommerz->setCustomerPhone($request->user['phone']);
+        $sslcommerz->setCustomerName($request->name);
+        $sslcommerz->setCustomerEmail($request->email);
+        $sslcommerz->setCustomerPhone($request->phone);
         $sslcommerz->setCustomerAddress1('SAR Bhaban, Ka-78 Pragati Sarani Main Road, 1229');
         $sslcommerz->setCustomerCountry('Bangladesh');
         $sslcommerz->setCustomerCity('Dhaka');

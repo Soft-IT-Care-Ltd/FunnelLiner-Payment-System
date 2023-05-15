@@ -14,4 +14,4 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::post('/sslcommerze/pay', [PaymentController::class, 'pay']);
+Route::get('payment/processing', [PaymentController::class, 'pay']);
