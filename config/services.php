@@ -33,5 +33,9 @@ return [
         'local' => 'http://localhost:8000/api/v1/client/subscription/store',
         'production' => 'https://web.funnelliner.com/api/v1/client/subscription/store'
     ],
+    'frontend_url' => [
+        'local' => 'http://localhost:3000/',
+        'production' => 'https://dashboard.funnelliner.com/'
+    ]
 
 ];

@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection PhpUndefinedFieldInspection */
 
 namespace App\Http\Controllers;
 
@@ -18,20 +18,20 @@ class PaymentController extends Controller
     {
         $this->paymentService = $paymentService;
     }
-    public function pay(Request $request)
+    public function pay(Request $request): string
     {
-        return $response = $this->paymentService->index($request);
+        return $this->paymentService->index($request);
     }
 
     public function callback(Request $request, $status): RedirectResponse
     {
         if ($status !== 'success') {
-            return Redirect::away(env('FRONTEND_URL').'subscription');
+            return Redirect::away(config('services.frontend_url.production').'subscription');
         }
 
         $data = SSLCommerze::validate($request->input('val_id'));
-        $client = Http::withHeaders(['X-Requested-With' =>'XMLHttpRequest'])->post(config('services.payment.production'), ['subscription' => $data, 'user_id' => $request->user_id]);
+        Http::withHeaders(['X-Requested-With' =>'XMLHttpRequest'])->post(config('services.payment.production'), ['subscription' => $data, 'user_id' => $request->user_id]);
 
-        return Redirect::away(env('FRONTEND_URL').'subscription?trxid='.$data->tran_id);
+        return Redirect::away(config('services.frontend_url.production').'subscription?trxid='.$data->tran_id);
     }
 }
