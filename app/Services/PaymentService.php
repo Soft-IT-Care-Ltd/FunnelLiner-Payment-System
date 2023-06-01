@@ -1,12 +1,9 @@
 <?php
-
-
 namespace App\Services;
-
 
 class PaymentService
 {
-    public function index($request)
+    public function index($request): string
     {
         $sslcommerz = new SSLCommerze();
         $sslcommerz->setPaymentDisplayType('hosted'); // enum('hosted', 'checkout')
@@ -28,7 +25,9 @@ class PaymentService
         $sslcommerz->setCustomerState('Dhaka');
 
         $sslcommerz->setShippingMethod('NO');
-        $sslcommerz->setStorePassword('funne644e48db5ede2@ssl');
+        $sslcommerz->setStoreId('softitcareorderlive');
+        $sslcommerz->setStorePassword('5FFB140D5F63088778');
+        $sslcommerz->setProductionMode(true);
         $sslcommerz->setEmiOption(0); // enum(1, 0)
         $sslcommerz->setProductName('Subscription');
         $sslcommerz->setProductCategory('Package');
