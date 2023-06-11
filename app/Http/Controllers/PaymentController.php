@@ -25,13 +25,31 @@ class PaymentController extends Controller
 
     public function callback(Request $request, $status): RedirectResponse
     {
-        if ($status !== 'success') {
-            return Redirect::away(config('services.frontend_url.production').'subscription');
+        if ($status !== 'success' && $request->data['order_type'] === 'plugin') {
+            return Redirect::away(config('services.frontend_url.local').'plug-in');
         }
 
-        $data = SSLCommerze::validate($request->input('val_id'));
-        Http::withHeaders(['X-Requested-With' =>'XMLHttpRequest'])->post(config('services.payment.production'), ['subscription' => $data, 'user_id' => $request->user_id]);
+        if ($status !== 'success' && $request->data['order_type'] === 'package') {
+            return Redirect::away(config('services.frontend_url.local').'subscription');
+        }
 
-        return Redirect::away(config('services.frontend_url.production').'subscription?trxid='.$data->tran_id);
+        if ($status !== 'success' && $request->data['order_type'] === 'sms') {
+            return Redirect::away(config('services.frontend_url.local').'bulk-sms');
+        }
+
+        $data = SSLCommerze::validate($request->val_id)->toArray();
+
+        if($status === 'success' && $request->data['order_type'] === 'plugin') {
+
+        }
+
+        if($status === 'success' && $request->data['order_type'] === 'sms') {
+
+        }
+
+        if($status === 'success' && $request->data['order_type'] === 'package') {
+            $res = Http::withHeaders(['X-Requested-With' =>'XMLHttpRequest'])->post(config('services.payment.local'), ['data' => $data, 'user_id' => $request->user_id]);
+            return Redirect::away(config('services.frontend_url.production').'subscription?trxid='.$data['tran_id']);
+        }
     }
 }

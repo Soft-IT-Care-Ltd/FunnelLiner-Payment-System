@@ -17,4 +17,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::post('/listen', function (\Illuminate\Support\Facades\Request $request){
+    \Illuminate\Support\Facades\Log::info('info', $request->all());
+})->name('listen');
+
 
