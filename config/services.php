@@ -30,7 +30,7 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
     'payment' => [
-        'local' => 'http://localhost:8000/api/v1/client/subscription/store',
+        'local' => 'http://localhost:8000/api/v1/client/transaction/store',
         'production' => 'https://web.funnelliner.com/api/v1/client/subscription/store'
     ],
     'frontend_url' => [
