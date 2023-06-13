@@ -47,6 +47,7 @@ class SSLCommerze
         $this->config = config(self::$_CONFIG);
         $this->primary[self::$_STORE_ID] = $this->config[self::$_STORE_ID];
         $this->primary[self::$_STORE_PASSWORD] = $this->config[self::$_STORE_PASSWORD];
+        $this->primary['currency'] = 'BDT';
         $this->is_production = !empty($config[self::$_IS_PRODUCTION]) ? $config[self::$_IS_PRODUCTION] : $this->config[self::$_IS_PRODUCTION];
         $this->api_env = $this->is_production ? self::$_ENV_PRODUCTION : self::$_ENV_SANDBOX;
         $this->api_domain = $this->config[self::$_API_DOMAIN][$this->api_env];
@@ -73,7 +74,7 @@ class SSLCommerze
 
     public function setTranId($id): bool
     {
-        $this->tran_id = $id;
+        $this->tran_id = $id ?? uniqid();
         return true;
     }
 
