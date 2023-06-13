@@ -27,11 +27,11 @@ class PaymentController extends Controller
     {
         if ($status !== 'success') {
             if ($request->data['order_type'] === 'plugin') {
-                return Redirect::away(config('services.frontend_url.local') . 'plug-in');
+                return Redirect::away(config('services.frontend_url.production') . 'plug-in');
             } elseif ($request->data['order_type'] === 'package') {
-                return Redirect::away(config('services.frontend_url.local') . 'subscription');
+                return Redirect::away(config('services.frontend_url.production') . 'subscription');
             } elseif ($request->data['order_type'] === 'sms') {
-                return Redirect::away(config('services.frontend_url.local') . 'bulk-sms');
+                return Redirect::away(config('services.frontend_url.production') . 'bulk-sms');
             }
         } else {
             $data = SSLCommerze::validate($request->val_id)->toArray();
@@ -50,9 +50,12 @@ class PaymentController extends Controller
                     break;
 
             }
-            $res = Http::withHeaders(['X-Requested-With' => 'XMLHttpRequest'])->post(config('services.payment.local'), ['data' => $data, 'user_id' => $request->user_id]);
+            $res = Http::withHeaders(['X-Requested-With' => 'XMLHttpRequest'])->post(config('services.payment.production'), ['data' => $data, 'user_id' => $request->user_id]);
 
-            return Redirect::away(config('services.frontend_url.local') . $location.'?trxid=' . $data['tran_id']);
+            if($data['tran_id'] === null){
+                return Redirect::away(config('services.frontend_url.production') . $location.'?status=failed');
+            }
+            return Redirect::away(config('services.frontend_url.production') . $location.'?trxid=' . $data['tran_id']);
         }
 
 
